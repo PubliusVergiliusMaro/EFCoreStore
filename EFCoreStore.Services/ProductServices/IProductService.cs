@@ -1,4 +1,6 @@
 ﻿using EFCoreStore.Database.Entities;
+using EFCoreStore.Services.CheckServices;
+using EFCoreStore.Services.CustomerServices;
 
 namespace EFCoreStore.Services.ProductServices
 {
@@ -17,5 +19,8 @@ namespace EFCoreStore.Services.ProductServices
 		List<ProductEntity> GetAllPurchase();
 
 		List<ProductEntity> GetAllAvaliable();
+
+		void Purchase(int CustomerId, List<ProductEntity> productEntities);
+		
 	}
 }

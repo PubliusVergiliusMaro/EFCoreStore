@@ -24,9 +24,15 @@ namespace EFCoreStore
 			checkRepository = new GenericRepository<CheckEntity>(dbContext);
 
 			customerService = new CustomerService(customerRepository);
-			productService = new ProductService(productRepository);
+			productService = new ProductService(productRepository,customerRepository,checkRepository);
 			checkService = new CheckService(checkRepository);
 
+			List<ProductEntity> products = new List<ProductEntity>()
+			{ 
+			productService.GetById(10)
+			};
+
+			productService.Purchase(2, products);
 			DisplayAllPurchasedProducts();
 
 			DisplayProductsWithCustomerData(2);
@@ -38,20 +44,21 @@ namespace EFCoreStore
 			DisplayAllNotPurchasedProducts();
 
 			DisplayEachCheck(2);
+			
 			Console.WriteLine("Successfully");
 			Console.ReadKey();
 		}
-		public static void Purchase(int CustomerId, List<ProductEntity> productEntities)
-		{
-			CustomerEntity customer = customerService.GetById(CustomerId);
-			CheckEntity check = new CheckEntity()
-			{ Products = productEntities, CreatedOn = DateTime.Now, CustomerFK = customer.Id };
-			foreach (ProductEntity productEntity in productEntities)
-			{
-				productEntity.CheckFK = check.Id;
-			}
-			checkService.Create(check);
-		}
+		//public static void Purchase(int CustomerId, List<ProductEntity> productEntities)
+		//{
+		//	CustomerEntity customer = customerService.GetById(CustomerId);
+		//	CheckEntity check = new CheckEntity()
+		//	{ Products = productEntities, CreatedOn = DateTime.Now, CustomerFK = customer.Id };
+		//	foreach (ProductEntity productEntity in productEntities)
+		//	{
+		//		productEntity.CheckFK = check.Id;
+		//	}
+		//	checkService.Create(check);
+		//}
 		public static void DisplayProductsInCheck(int CheckId)
 		{
 			CheckEntity check = checkService.GetById(CheckId);
